@@ -9,24 +9,38 @@ __status__ = "Prototype"
 # Calculates a set of permutation
 # Input:
 #     nNodes: number of nodes in the graph
-#     *args: maximum number of iterations to generate (default is nNodes!)
+#     symmetric: wheter or not the 
+#     *args: maximum number of iterations to generate
 # Output:
 #     l1: list of generated permutations
 #     l2: list of indices with the last change
-def permute(nNodes,*args):
+def permute(nNodes, symmetric = False, *args):
+    
     if len(args)>0:
-        max_iter = min(args[0],mt.factorial(nNodes))
+        max_iter = min(mt.factorial(nNodes),args[0])
     else:
         max_iter = mt.factorial(nNodes)
+
     l1 = []
     l2 = []
+    lastRedundant = False
     for idx in range(max_iter):
-        perm, lastChange = fastPermute(idx, nNodes, args)
-        l1.append(perm)
-        l2.append(lastChange)
+        perm, lastChange = fastPermute(idx, nNodes, symmetric)
+        #check if list is empty, i.e. redundant path
+        if not perm:
+            lastRedundand = True
+        else:
+            l1.append(perm)
+            # If last permutation was skipped, calculate all costs to avoid complications
+            if lastRedundant == True:
+                l2.append(0)
+                lastRedundant = False
+            else:
+                l2.append(lastChange)    
     return l1, l2
 
-def fastPermute(num, nNodes, *args):
+# Just a junction of calculateFactoradic and getPermutation to cut time in half
+def fastPermute(num, nNodes, symmetric):
     nodeList = list(range(nNodes))
     perm = []
     lastChange = 0
@@ -38,6 +52,9 @@ def fastPermute(num, nNodes, *args):
         if num > 0 and np.mod(num,hFac) == 0:
             lastChange = idx
         num = np.mod(num,hFac)
+    if symmetric == True:
+        if perm[0] > perm[-1]:
+            perm = []
     return perm, lastChange
 
 # DEPRECATED

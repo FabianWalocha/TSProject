@@ -1,15 +1,19 @@
 import permute as pm
 import numpy as np
+from time import time
 
-def bruteForce(adj_mat, *args):
+def bruteForce(adj_mat, symmetric=False, timed = False, *args):
     
     nNodes = len(adj_mat) -1
     if len(args)>0:
-        permList = pm.permute(nNodes,args[0])
+        permList = pm.permute(nNodes,symmetric,args[0])
     else:
-        permList = pm.permute(nNodes)
+        permList = pm.permute(nNodes,symmetric)
     perms = np.array(permList[0])+1
     lastChanges = permList[1]
+    
+    if timed:
+        t1 = time()
     
     cMin = np.inf
     # used for storing previous costs to not compute them again
@@ -28,4 +32,9 @@ def bruteForce(adj_mat, *args):
         if cCurr < cMin:
             pMin = p
             cMin = cCurr
-    return cMin, np.append([0],np.append(pMin,[0]))
+        
+    if timed:    
+        t2 = time()
+        return cMin, np.append([0],np.append(pMin,[0])), (t2-t1)
+    else:
+        return cMin, np.append([0],np.append(pMin,[0]))
