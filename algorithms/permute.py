@@ -5,15 +5,15 @@ __author__ = "Fabian Walocha"
 __copyright__ = "Copyright 2018"
 __status__ = "Prototype"
 
-# inspiration: https://en.wikipedia.org/wiki/Factorial_number_system#Permutations
-# Calculates a set of permutation
+# Calculates a set of permutation and associated last changes for TSP
 # Input:
 #     nNodes: number of nodes in the graph
-#     symmetric: wheter or not the 
+#     symmetric: whether or not the adjacency matrix is symmetric
 #     *args: maximum number of iterations to generate
 # Output:
 #     l1: list of generated permutations
 #     l2: list of indices with the last change
+
 def permute(nNodes, symmetric = False, *args):
     
     if len(args)>0:
@@ -58,6 +58,7 @@ def fastPermute(num, nNodes, symmetric):
     return perm, lastChange
 
 # DEPRECATED
+# inspiration: https://en.wikipedia.org/wiki/Lehmer_code
 # displays num in the factorial number system
 def calculateFactoradic(num, nNodes):
     factoradic = []
