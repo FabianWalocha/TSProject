@@ -37,4 +37,4 @@ def bruteForce(coordinates):
 
     t2 = time.time()
 
-    return(t2-t1)
+    return (t2-t1, bestDistance)
