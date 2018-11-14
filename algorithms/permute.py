@@ -28,12 +28,18 @@ def permute(nNodes, symmetric = False, *args):
         perm, lastChange = fastPermute(idx, nNodes, symmetric)
         #check if list is empty, i.e. redundant path
         if not perm:
-            lastRedundand = True
+            if not lastRedundant:
+                # save the path which was the same for the last (redundant) path
+                lastPos = lastChange
+                lastRedundant = True
+            else:
+                # update the path which was the same for each new (redundant) path
+                lastPos = np.min([lastPos,lastChange])
         else:
             l1.append(perm)
-            # If last permutation was skipped, calculate all costs to avoid complications
-            if lastRedundant == True:
-                l2.append(0)
+            # If last permutation(s) were skipped, calculate from last common path
+            if lastRedundant:
+                l2.append(np.min([lastPos,lastChange]))
                 lastRedundant = False
             else:
                 l2.append(lastChange)    
@@ -44,14 +50,19 @@ def fastPermute(num, nNodes, symmetric):
     nodeList = list(range(nNodes))
     perm = []
     lastChange = 0
+    # Get each digit of factoradic which is in base mt.factorial(fact)
     for idx, fact in enumerate(np.arange(nNodes)[::-1]):
+        # get base
         hFac = mt.factorial(fact)
+        # how often does it fit in base -> nFac
         nFac = int(num/hFac)
         perm.append(nodeList[nFac])
+        # update permutation by deleting the nFac-th element from list
         del nodeList[nFac]
         if num > 0 and np.mod(num,hFac) == 0:
             lastChange = idx
         num = np.mod(num,hFac)
+    # delete all redundant paths
     if symmetric == True:
         if perm[0] > perm[-1]:
             perm = []
