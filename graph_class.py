@@ -2,7 +2,9 @@
 # coding: utf-8
 
 import numpy as np
-
+import matplotlib.pyplot as plt
+import itertools
+import time
 
 class vertex:
     def __init__(self, vertex_name):
@@ -155,6 +157,9 @@ class graph:
             path_weight += self.get_edge(node,previous_node)[1]
             previous_node = node
         return path_weight
+    def get_cycle_weight(self, path):
+        """joins the first and the last vertices when calculating weight"""
+        return self.get_path_weight(path) + self.get_path_weight((path[-1],path[0]))
             
     def print(self):
         """prints general info"""
@@ -184,10 +189,12 @@ def get_node_coordinates_2D(filename):
 
     input_data.close()
     node_coordinates = np.array(interesting_lines)[:,[1,2]]
+    node_coordinates = [(int(a) for a in b) for b in node_coordinates]
     return node_coordinates
 
 
 def nearest_int(x):
+    #deprecated: using np.around instead
     if x-int(x)<int(x+1)-x:
         return int(x)
     else:
@@ -198,7 +205,7 @@ def nearest_int_euclidean_distance_2D(v1,v2):
     as required in the TSPLIB docs"""
     xd = v1.name[0] - v2.name[0]
     yd = v1.name[1] - v2.name[1]
-    return nearest_int(np.sqrt(xd*xd + yd*yd))
+    return int(np.around(np.sqrt(xd*xd + yd*yd)))
 
 
 def heidelberg_2D(filename):
@@ -211,7 +218,138 @@ def heidelberg_2D(filename):
         heidelberg_graph.attach_vertex_fully_connected(vertex(tuple(node)), nearest_int_euclidean_distance_2D)
     return heidelberg_graph
 
+def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euclidean_distance_2D):
+    """creates a fully connected graph from a coordinate list; defaults to nearest_int_euclidean_distance"""
+    v1 = vertex(tuple(nodes[0]))
+    v2 = vertex(tuple(nodes[1]))
+    output_graph = graph(v1,v2, distance(v1,v2))
+    for node in nodes[2:]:
+        output_graph.attach_vertex_fully_connected(vertex(tuple(node)), distance)
+    return output_graph
 
+def graph_from_adjacency_matrix(matrix):
+    """creates a fully connected graph from an adjacency matrix in the form of a numpy array"""
+    nodes = [i for i in range(matrix.shape[0])]
+    v1 = vertex(nodes[0])
+    v2 = vertex(nodes[1])
+    output_graph = graph(v1,v2, matrix[0][1])
+    for node in nodes[2:]:
+        output_graph.attach_vertex_fully_connected(vertex(node), lambda x,y: np.infty)
+    for i in nodes:
+        for j in nodes:
+            if i<j:
+                output_graph.update_edge(vertex(i),vertex(j),matrix[i][j])
+    return output_graph
+
+
+
+def heidelberg_optimal_tour(filename):
+    """gets node indices for optimal path from opt.tour file"""
+    node_indices = []
+
+    with open(filename) as input_data:
+        interesting_lines = []
+    
+        for line in input_data:
+            if line.strip() == 'TOUR_SECTION':  #read from this point
+                break
+            
+        for line in input_data:
+            if line.strip() == '-1': #until this point
+                break
+            else:
+                interesting_lines.append(int(line.split()[0]))
+
+    input_data.close()
+    node_indices = [index-1 for index in interesting_lines]
+    return node_indices
+
+def plotTSP_2D(path):
+    """
+    path: ordered list of vertices
+    """       
+    x = []; y = []
+    for node in path:
+        x.append(node.name[0])
+        y.append(node.name[1])
+
+    # Set a scale for the arrow heads
+    a_scale = float(min(max(x)-min(x), max(y)-min(y)))/float(50)
+    
+    #plot the vertices
+    plt.plot(x, y, linestyle = 'none', color = 'black', marker = '.', fillstyle='none', alpha=0.8)
+
+    #Draw the path for the TSP problem
+    plt.arrow(x[-1], y[-1], (x[0] - x[-1]), (y[0] - y[-1]), head_width = a_scale,
+           color ='r', length_includes_head=True, ls='--', aa=True, alpha =0.5)
+    for i in range(0,len(x)-1):
+        plt.arrow(x[i], y[i], (x[i+1] - x[i]), (y[i+1] - y[i]), head_width = a_scale,
+               color = 'r', length_includes_head = True, ls='--', aa=True, alpha=0.5)
+    plt.show()
+    
+def brute_force(graph, max_iterations = np.infty, random_init = True, return_graph = True):
+    
+    start = time.time()    
+    
+    if random_init:
+        nodes = np.random.permutation(graph.vertices)
+    else:
+        nodes = graph.vertices
+        
+    #creates an iterator instead of saving all paths (which is impossible except for very small problems)      
+    allpaths = iter((itertools.permutations(nodes)))
+    min_weight = np.infty
+    step = 0
+    
+    while step < max_iterations:
+        step += 1
+        this_path = next(allpaths)
+        
+        current_path_weight = graph.get_cycle_weight(this_path)
+        
+        if current_path_weight < min_weight:
+            min_weight = current_path_weight
+            min_path = this_path
+            
+    end = time.time()
+    if return_graph:
+        node_output = plotTSP_2D(min_path)
+    else:
+        node_output = min_path
+    return end-start, min_weight, node_output
+
+
+# simulated annealing implementation
+def simulated_annealing(graph,random_init = True, temperature = 100000, return_graph = True):
+    #ISSUES:
+    #1. Cools one degree for every computation step. Should be decoupled: simulate cooling time using a "cooling function"
+    #2. Instead of shuffling a random path, should maximize the distance between the two permutations (since the length 
+        # of the sequence to be shuffled is already random). This could be done using, perhaps, the "Kendal tau distance":
+        # [[https://en.wikipedia.org/wiki/Kendall_tau_distance]]
+    start = time.time()
+    if random_init:
+        nodes = np.random.permutation(graph.vertices)
+    else:
+        nodes = graph.vertices
+        
+    current_min = graph.get_cycle_weight(nodes)
+    
+    for i in range(temperature):
+        k = np.random.randint(0,len(nodes))
+        p = np.random.randint(k,len(nodes))
+        np.random.shuffle(nodes[k:p])
+        test_min = graph.get_cycle_weight(nodes)
+        if np.exp(-(test_min-current_min)**2/(temperature-i))> np.random.rand():
+            current_min = test_min
+        else:
+            current_min = min(current_min, test_min)    
+    
+    end = time.time()
+    if return_graph:
+        node_output = plotTSP_2D(nodes)
+    else:
+        node_output = nodes
+    return end-start, current_min, node_output
 
 
 
