@@ -54,6 +54,9 @@ def bruteForce(adj_mat, symmetric=False, timed = False, *args):
         if cCurr < cMin:
             pMin = np.append([0],np.append(p,[0]))
             cMin = cCurr
+    # No idea wtf is happening here sometimes...
+    if isinstance(cMin, np.ndarray):
+        cMin = cMin[0]
     if timed:    
         t2 = time()
         return cMin, pMin, (t2-t1)
