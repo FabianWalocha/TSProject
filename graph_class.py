@@ -289,7 +289,8 @@ def plotTSP_2D(path):
     
 def brute_force(graph, max_iterations = np.infty, random_init = True, return_graph = True):
     
-    start = time.time()    
+    start = time.time()
+    
     
     if random_init:
         nodes = np.random.permutation(graph.vertices)
@@ -301,6 +302,13 @@ def brute_force(graph, max_iterations = np.infty, random_init = True, return_gra
     min_weight = np.infty
     step = 0
     
+    #too many iterations will exhaust the iterator, throwing an error. The following lines prevents it:
+    
+    max_graph_edges = np.math.factorial(len(nodes))
+    if max_iterations > max_graph_edges:
+        max_iterations = max_graph_edges
+    
+    start = time.time()
     while step < max_iterations:
         step += 1
         this_path = next(allpaths)
