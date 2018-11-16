@@ -15,7 +15,7 @@ plt.style.use('seaborn-notebook')
 
 def bruteForce(coordinates):
     #constants to generate data
-    DOTS_N  = coordinates.size()
+    DOTS_N  = len(coordinates)
     DIST_RANGE = 8
     fr_fr_faker = Faker('fr_FR')  # set French facker
 
@@ -30,18 +30,18 @@ def bruteForce(coordinates):
     #print(df)
 
         #Plot dots with labels
-    plt.plot([dots_pure[i][0]for i in range(DOTS_N)], [dots_pure[i][1]for i in range(DOTS_N)],'c8')
-    for i in range(DOTS_N):
-        plt.annotate(
-            listofcitynames[i],
-            xy=(dots_pure[i][0], dots_pure[i][1]))
-    plt.show()
+#     plt.plot([dots_pure[i][0]for i in range(DOTS_N)], [dots_pure[i][1]for i in range(DOTS_N)],'c8')
+#     for i in range(DOTS_N):
+#         plt.annotate(
+#             listofcitynames[i],
+#             xy=(dots_pure[i][0], dots_pure[i][1]))
+#     plt.show()
 
     #Combine city names and dots
     dots =[[listofcitynames[i],dots_pure[i]] for i in range(DOTS_N)]
 
     #Generate all possible unique permutations
-    print("Number of possible permutations = ", math.factorial(DOTS_N))
+    #print("Number of possible permutations = ", math.factorial(DOTS_N))
     possibleWays=list(multiset_permutations(dots))
 
     time_start = time.time()
@@ -52,13 +52,13 @@ def bruteForce(coordinates):
 
     #Get minimum distance and path
     min_output = sorted(output, key=itemgetter(0))[0]
-    print('Min Distance = ', min_output[0])
+    #print('Min Distance = ', min_output[0])
     distance =  min_output[0]
-    print('Min Path = ', min_output[1])
+    #print('Min Path = ', min_output[1])
     time_end = time.time()
 
     execution_time = time_end - time_start
-    print("Execution time", execution_time)
+    #print("Execution time", execution_time)
     #print('Middle distance = ', sorted(output, key=itemgetter(0))[5038])
     #print(sorted(output, key=itemgetter(0)))
     return (execution_time,distance)
