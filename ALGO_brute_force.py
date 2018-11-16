@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+__author__ = "Eduardo Brandao"
+__copyright__ = "Copyright 2018"
+__status__ = "Prototype"
+
 # In[3]:
 
 
