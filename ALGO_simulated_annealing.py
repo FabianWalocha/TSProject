@@ -3,6 +3,9 @@
 
 # In[1]:
 
+__author__ = "Eduardo Brandao"
+__copyright__ = "Copyright 2018"
+__status__ = "Prototype"
 
 import graph_class as g
 import itertools
