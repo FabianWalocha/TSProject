@@ -1,4 +1,7 @@
-import permute as pm
+import sys
+sys.path.insert(0, '../../python-probabilistic-regression-tools/')
+
+from algorithms import permute as pm
 import numpy as np
 from time import time
 
