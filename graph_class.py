@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 import itertools
 import time
 
+__author__ = "Eduardo Brandao"
+__copyright__ = "Copyright 2018"
+__status__ = "Prototype"
+
+
 class vertex:
     def __init__(self, vertex_name):
         self.neighbourhood = []
@@ -24,8 +29,14 @@ class edge:
     def print(self):
         print(self.v1.name, "to", self.v2.name, "taking", self.weight, "km")
     
-class graph:  
+class graph:
+    
     def __init__(self,v1,v2,w):
+        
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         self.vertices = []
         self.dic_vertices = {}
         self.edges = []
@@ -57,7 +68,9 @@ class graph:
         
         
     def attach_vertex(self, new_vertex, existing_vertex, weight):        
-
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
         new_edge = edge(new_vertex, existing_vertex, weight)
         
         self.dic_edges[(new_edge.v1.name,new_edge.v2.name)] = len(self.edges) 
@@ -87,6 +100,9 @@ class graph:
         self.vertices[self.dic_vertices[existing_vertex.name]].is_neighbour_of(self.vertices[self.dic_vertices[new_vertex.name]])
              
     def attach_edge(self, v1, v2, weight):
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
         
         new_edge = edge(v1, v2, weight)
         self.dic_edges[(new_edge.v1.name,new_edge.v2.name)] = len(self.edges) 
@@ -100,6 +116,10 @@ class graph:
         self.vertices[self.dic_vertices[v2.name]].is_neighbour_of(self.vertices[self.dic_vertices[v1.name]])
         
     def remove_edge(self, v1, v2):
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         #symmetric TSP
         # remove edge and dictionary reference from the graph
         try:
@@ -122,6 +142,10 @@ class graph:
 
         
     def update_edge(self, v1, v2, new_weight):
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         #symmetric TSP
         try:
             index = self.dic_edges[(v1.name,v2.name)]
@@ -134,6 +158,10 @@ class graph:
         
     def get_edge(self,v1,v2):
         """returns a list with the index and weight of the edge between v1 and v2 (symmetric)"""
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         try:
             index = self.dic_edges[(v1.name,v2.name)]
         except:
@@ -142,6 +170,10 @@ class graph:
                     
     def attach_vertex_fully_connected(self, new_vertex, weight_function):
         """used to build fully connected graphs (Heidelberg)"""
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         vertex_list = self.vertices.copy()
         self.attach_vertex(new_vertex, vertex_list[0], weight_function(new_vertex, vertex_list[0]))
         
@@ -149,6 +181,10 @@ class graph:
             self.attach_edge(new_vertex, existing_vertex, weight_function(new_vertex, existing_vertex))
             
     def get_path_weight(self, path):
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         if type(path[0])!= vertex:
             path = [vertex(name) for name in path]            
         path_weight = 0
@@ -158,11 +194,19 @@ class graph:
             previous_node = node
         return path_weight
     def get_cycle_weight(self, path):
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         """joins the first and the last vertices when calculating weight"""
         return self.get_path_weight(path) + self.get_path_weight((path[-1],path[0]))
             
     def print(self):
         """prints general info"""
+        __author__ = "Eduardo Brandao"
+        __copyright__ = "Copyright 2018"
+        __status__ = "Prototype"
+
         names = [a.name for a in self.vertices]
         print(len(self.vertices), "VERTICES:",', '.join(names),"\n")
         weights = [str(a.weight)+" km" for a in self.edges]
@@ -172,6 +216,10 @@ class graph:
 
 def get_node_coordinates_2D(filename):
     """gets node coordinates in 2D. Should work with any distance"""
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     node_coordinates = []
 
     with open(filename) as input_data:
@@ -192,17 +240,13 @@ def get_node_coordinates_2D(filename):
     node_coordinates = [(int(a) for a in b) for b in node_coordinates]
     return node_coordinates
 
-
-def nearest_int(x):
-    #deprecated: using np.around instead
-    if x-int(x)<int(x+1)-x:
-        return int(x)
-    else:
-        return int(x+1)
-
 def nearest_int_euclidean_distance_2D(v1,v2):
     """between vertices, rounded to the nearest integer,
     as required in the TSPLIB docs"""
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     xd = v1.name[0] - v2.name[0]
     yd = v1.name[1] - v2.name[1]
     return int(np.around(np.sqrt(xd*xd + yd*yd)))
@@ -210,6 +254,10 @@ def nearest_int_euclidean_distance_2D(v1,v2):
 
 def heidelberg_2D(filename):
     """parses 2D distance TSP type .tsp file from Heidelberg and returns the graph"""
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     nodes = get_node_coordinates_2D(filename)
     v1 = vertex(tuple(nodes[0]))
     v2 = vertex(tuple(nodes[1]))
@@ -220,6 +268,10 @@ def heidelberg_2D(filename):
 
 def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euclidean_distance_2D):
     """creates a fully connected graph from a coordinate list; defaults to nearest_int_euclidean_distance"""
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     v1 = vertex(tuple(nodes[0]))
     v2 = vertex(tuple(nodes[1]))
     output_graph = graph(v1,v2, distance(v1,v2))
@@ -229,6 +281,10 @@ def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euc
 
 def graph_from_adjacency_matrix(matrix):
     """creates a fully connected graph from an adjacency matrix in the form of a numpy array"""
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     nodes = [i for i in range(matrix.shape[0])]
     v1 = vertex(nodes[0])
     v2 = vertex(nodes[1])
@@ -245,6 +301,10 @@ def graph_from_adjacency_matrix(matrix):
 
 def heidelberg_optimal_tour(filename):
     """gets node indices for optimal path from opt.tour file"""
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     node_indices = []
 
     with open(filename) as input_data:
@@ -267,7 +327,11 @@ def heidelberg_optimal_tour(filename):
 def plotTSP_2D(path):
     """
     path: ordered list of vertices
-    """       
+    """
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     x = []; y = []
     for node in path:
         x.append(node.name[0])
@@ -288,6 +352,10 @@ def plotTSP_2D(path):
     plt.show()
     
 def brute_force(graph, max_iterations = np.infty, random_init = True, return_graph = True):
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     
     start = time.time()
     
@@ -334,6 +402,10 @@ def simulated_annealing(graph,random_init = True, temperature = 100000, return_g
     #2. Instead of shuffling a random path, should maximize the distance between the two permutations (since the length 
         # of the sequence to be shuffled is already random). This could be done using, perhaps, the "Kendal tau distance":
         # [[https://en.wikipedia.org/wiki/Kendall_tau_distance]]
+    __author__ = "Eduardo Brandao"
+    __copyright__ = "Copyright 2018"
+    __status__ = "Prototype"
+
     start = time.time()
     if random_init:
         nodes = np.random.permutation(graph.vertices)
