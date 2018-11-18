@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '../../TSProject/')
+
 import numpy as np
 import math as mt
 
