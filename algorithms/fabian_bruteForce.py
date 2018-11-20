@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '../../python-probabilistic-regression-tools/')
+sys.path.insert(0, '../../TSProject/')
 
 from algorithms import permute as pm
 import numpy as np
