@@ -16,7 +16,7 @@ import time
 # In[2]:
 
 #returns elapsed time, the minimum distance, and the minimum cycle/plot of the cycle
-def simulated_annealing(graph,random_init = True, temperature = 100000, return_graph = True):
+def simulated_annealing(graph,random_init = True, temperature = 10000, cooling_factor = 0.999, return_graph = False, method = "2-OPT", break_time = 600):
     """"
     graph: instance of class graph; can be created from coordinate list (graph.fully_connected_graph_from_coordinate_list),
     from an adjacency matrix (graph.graph_from_adjacency_matrix) or from a tsp type file (graph.heidelberg_2D)
@@ -27,10 +27,14 @@ def simulated_annealing(graph,random_init = True, temperature = 100000, return_g
     """
     #ISSUES:
     #1. Cools one degree for every computation step. Should be decoupled: simulate cooling time using a "cooling function"
+    # DONE, using Kirpatrick cooling
     #2. Instead of shuffling a random path, should maximize the distance between the two permutations (since the length 
         # of the sequence to be shuffled is already random). This could be done using, perhaps, the "Kendal tau distance":
         # [[https://en.wikipedia.org/wiki/Kendall_tau_distance]]
+    # DONE: there's no such thing; I just chose another neighbouring method (2-OPT), which is faster to compute
+    
     start = time.time()
+    
     if random_init:
         nodes = np.random.permutation(graph.vertices)
     else:
@@ -38,16 +42,37 @@ def simulated_annealing(graph,random_init = True, temperature = 100000, return_g
         
     current_min = graph.get_cycle_weight(nodes)
     
-    for i in range(temperature):
+    # with default temperature and cooling rate, it will go through about 23000 iterations,
+    while temperature>0.000001:
+        
         k = np.random.randint(0,len(nodes))
         p = np.random.randint(k,len(nodes))
-        np.random.shuffle(nodes[k:p])
+        
+        # this is the NEIGHBOURING algorithm in the pseudocode        
+        # we can choose to expore the problem space by either
+        # doing a random SHUFFLE of the nodes between k and p or a full inversion (2-OPT)
+        # 2-OPT should be faster to compute, but the set of neighbours is smaller at each iteration
+        # there are paths in solution space that are not accessible to 2-OPT, which are accessible to SHUFFLE;
+        # there should be some classes of problems for which each method converges faster
+        
+        if method == "SHUFFLE":
+            np.random.shuffle(nodes[k:p])
+        elif method == "2-OPT":    
+            nodes[k:p]= np.flip(nodes[k:p], axis=0)
+        
         test_min = graph.get_cycle_weight(nodes)
-        # I chose a Gaussian but other probability distributions should also make sense
-        if np.exp(-(test_min-current_min)**2/(temperature-i))> np.random.rand():
+        
+        # Replaced Gaussian with Boltzmann distribution, in the spirit of good physics ;)
+        if np.exp(-(test_min-current_min)/(temperature))> np.random.rand():
             current_min = test_min
         else:
-            current_min = min(current_min, test_min)    
+            current_min = min(current_min, test_min)
+        if time.time()-start > break_time:
+            break
+        # replaced linear cooling with kirpatrick cooling(http://citeseer.ist.psu.edu/kirkpatrick83optimization.html),
+        # again in the spirit of good physics and because we want the algorithm to spend enough time perfecting the 
+        # local minimum
+        temperature = temperature*cooling_factor
     
     end = time.time()
     if return_graph:
@@ -55,4 +80,3 @@ def simulated_annealing(graph,random_init = True, temperature = 100000, return_g
     else:
         node_output = nodes
     return end-start, current_min, node_output
-
