@@ -323,7 +323,20 @@ def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euc
     __author__ = "Eduardo Brandao"
     __copyright__ = "Copyright 2018"
     __status__ = "Prototype"
-
+    
+    #script to introduce a very small change to the coordinates of vertices if there are repeated coordinates
+    # to make it play nice with the dictionaries
+    
+    uniques, uniques_i = np.unique(nodes, axis=0, return_index=True)
+    if len(uniques) != len(nodes):
+        repeated = [x for x in range(len(nodes)) if x not in uniques_i]
+    
+        for element in nodes:
+            for component in element:
+                component = float(component)
+            for i in repeated:
+                nodes[i] = nodes[i] + 0.000000000000001
+    # end of script
     v1 = vertex(tuple(nodes[0]))
     v2 = vertex(tuple(nodes[1]))
     output_graph = graph(v1,v2, distance(v1,v2))
