@@ -12,16 +12,14 @@ __status__ = "Prototype"
 # Implementation of the greedy algorithm for TSP
 # Input:
 #     adj_mat: adjacency matrix
-#     timed: whether or not the algorithm is supposed to be timed
-#     *args: maximum number of iterations to generate
 # Output:
 #     cost: cost found
 #     list_of_traversed_nodes: associated path
-#     time: time needed to execute the algorithm (if timed=True)
+#     time: time needed to execute the algorithm
 
-def greedy(adj_mat, timed = False):
-    if timed:
-        t1 = time()
+def greedy(graph):
+    adj_mat = graph.weighted_adjacency_matrix
+    t1 = time()
     cost = 0
     listOfTraversedNodes = []
     nNodes = len(adj_mat)
@@ -33,8 +31,5 @@ def greedy(adj_mat, timed = False):
         listOfTraversedNodes.append(np.argmin(currentCosts))
         cost = cost + adj_mat[listOfTraversedNodes[idx],listOfTraversedNodes[idx+1]]
     cost = cost+ adj_mat[listOfTraversedNodes[-1],listOfTraversedNodes[0]]
-    if timed:
-        t2 = time()
-        return cost, listOfTraversedNodes + [listOfTraversedNodes[0]], (t2-t1)
-    else:
-        return cost, listOfTraversedNodes + [listOfTraversedNodes[0]]
+    t2 = time()
+    return cost, listOfTraversedNodes + [listOfTraversedNodes[0]], (t2-t1)

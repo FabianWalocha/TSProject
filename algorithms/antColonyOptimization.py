@@ -16,7 +16,6 @@ __status__ = "Prototype"
 #     max_iter: how many times num_agents ants are supposed to be send to traverse
 #     alpha, beta: parameters which influence the effect size of the pheromone trail and the path length on the probabilistic update
 #     rho: multiplier which regulates the decay rate of the pheromone trail
-#     timed: whether or not the algorithm is supposed to be timed
 #     verbose: whether you want print updates every 1000 iterations on the probability distribution of the 
 # Output:
 #     cost: cost found
@@ -25,25 +24,28 @@ __status__ = "Prototype"
 #     time: time it took for the algorithm to finish
 
 # inspiration: http://staff.washington.edu/paymana/swarm/stutzle99-eaecs.pdf
-def antColonyOptimization(adj_mat, num_agents=100, max_iter = 100000, alpha=1, beta=1, rho=0.8, timed=False, verbose=0):
-    if timed:
-        t1 = time()
+def antColonyOptimization(graph, num_agents=100, max_iter = 100000, alpha=1, beta=1, rho=0.8, symmetric=False, verbose=0):
+    adj_mat = graph.weighted_adjacency_matrix
+    t1 = time()
     pher_mat = np.ones(adj_mat.shape)
     prob_mat = np.ones(adj_mat.shape)/len(adj_mat-1)
     for idx in range(len(adj_mat)):
         prob_mat[idx,idx]=0
     idx = 0
-    while np.min(np.max(prob_mat,axis=1))<0.95 and idx<max_iter:
+    tdif = 0
+    while np.min(np.max(prob_mat,axis=1))<0.95 and idx<max_iter and tdif<600:
         if verbose > 0:
             if np.mod(idx,1000)==0:
                 print("Iteration no.",idx,"Result",np.min(np.max(prob_mat,axis=1)))
         # Get random starting points
         positions = rd.choices(range(len(adj_mat)),k=num_agents)
         # find a path with each ant, decay pheromones, update pheromones
-        pher_mat = traverse_random_multi(adj_mat, prob_mat, pher_mat, num_agents, positions, rho)
+        pher_mat = traverse_random_multi(adj_mat, prob_mat, pher_mat, num_agents, positions, rho, symmetric)
         # Update the probabilities given the new pheromone trails
         prob_mat = update_probs(adj_mat, pher_mat, alpha, beta)
         idx += 1
+        ttemp = time()
+        tdif = (ttemp-t1)
         
     #get best path found by going through probabilities starting with highest
     p0 = np.unravel_index(np.argmax(prob_mat),adj_mat.shape)
@@ -60,14 +62,11 @@ def antColonyOptimization(adj_mat, num_agents=100, max_iter = 100000, alpha=1, b
         p_curr = p_next
     cost += adj_mat[p_curr,p0[0]]
     path.append(p0[0])
-    if timed:
-        t2 = time()
-        return cost, path, np.round(prob_mat,2), (t2-t1)
-    else:
-        return cost, path, np.round(prob_mat,2)
+    t2 = time()
+    return cost, path, np.round(prob_mat,2), (t2-t1)
     
 # sends multiple ants to find a path, updates pheromone trail
-def traverse_random_multi(adj_mat, prob_mat, pher_mat, num_agents, positions, rho):
+def traverse_random_multi(adj_mat, prob_mat, pher_mat, num_agents, positions, rho, symmetric):
     results = []
     for idx in range(num_agents):
         path, pheromones = traverse_random(adj_mat, prob_mat, positions[idx])
@@ -78,6 +77,8 @@ def traverse_random_multi(adj_mat, prob_mat, pher_mat, num_agents, positions, rh
     for idx in range(len(results)):
         for idx2 in range(len(adj_mat)):
             pher_mat[results[idx][0][idx2],results[idx][0][idx2+1]]+=results[idx][1]
+            if symmetric:
+                pher_mat[results[idx][0][idx2+1],results[idx][0][idx2] ]+=results[idx][1]
     return pher_mat
     
 # send a single ant to find a path

@@ -16,19 +16,19 @@ __status__ = "Prototype"
 #     adj_mat: adjacency matrix
 #     symmetric: wheter or not the symmetric property can be used
 #     preload: preload permutations (decreases runtime, recommended for graphs <11 nodes only!)
-#     timed: whether or not the algorithm is supposed to be timed
 #     *args: maximum number of iterations to generate
 # Output:
 #     cMin: minimum cost found
 #     pMin: associated minimum path
-#     time: time needed to execute the algorithm (if timed=True)
+#     time: time needed to execute the algorithm
 
-def bruteForce(adj_mat, symmetric=False, preload=True, timed = False, *args):
+def bruteForce(graph, symmetric=False, preload=False, *args):
+    adj_mat = graph.weighted_adjacency_matrix
     
     # create the permutations for the algorithm
-    # this part is not timed since it does not depend on the input adjacency matrix
     nNodes = len(adj_mat) -1
     
+    # this part is not timed since it does not depend on the input adjacency matrix
     if preload:
         if len(args)>0:
             permList = pm.permute(nNodes,symmetric,args[0])
@@ -37,8 +37,7 @@ def bruteForce(adj_mat, symmetric=False, preload=True, timed = False, *args):
         perms = np.array(permList[0])+1
         lastChanges = np.array(permList[1])+1
         
-    if timed:
-        t1 = time()
+    t1 = time()
     
     cMin = np.inf
     # used for storing previous costs to not compute them again
@@ -69,6 +68,9 @@ def bruteForce(adj_mat, symmetric=False, preload=True, timed = False, *args):
             if cCurr < cMin:
                 pMin = np.append([0],np.append(p,[0]))
                 cMin = cCurr
+            ttemp = time()
+            if (ttemp-t1) > 600:
+                break
     else:
         perms = iter((itertools.permutations(range(nNodes))))
         for perm_idx in range(max_iter):            
@@ -101,11 +103,12 @@ def bruteForce(adj_mat, symmetric=False, preload=True, timed = False, *args):
             else:
                 lastRedundant = True            
             plast = p
+            ttemp = time()
+            if (ttemp-t1) > 600:
+                break
+                
     # If more than one minimal solution was found in between
     if isinstance(cMin, np.ndarray):
         cMin = cMin[0]
-    if timed:    
-        t2 = time()
-        return cMin, pMin, (t2-t1)
-    else:
-        return cMin, pMin, 
+    t2 = time()
+    return cMin, pMin, (t2-t1)
