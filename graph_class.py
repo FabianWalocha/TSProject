@@ -12,6 +12,13 @@ __status__ = "Prototype"
 
 
 class vertex:
+    """
+    A vertex v \in V, where (V,E) is a graph.
+    Vertices have unique identifiers that which identify them uniquely (self.name);
+    Vertices have a neighbourhood (self.neighborhood) which is made up of other vertices 
+        You can add to the neighborhood by calling the class method (is_neighbour_of); note that on a directed graphs,
+        V2 is a neighbour of V1 if there is a (directed) edge (V1, V2) between the two.
+    """
     def __init__(self, vertex_name):
         self.neighbourhood = []
         # ANY kind of ID. For Heidelberg, could be latitude, longitude, altitude...
@@ -22,6 +29,11 @@ class vertex:
         print(self.name)        
         
 class edge:
+    """
+    An edge e \in E, where (V,E) is a graph.
+    Edges are directed: (v1, v2)!=(v2, v1); and weighted: (v1, v2, w).
+    
+    """
     def __init__(self, a, b, w):
         self.v1 = a
         self.v2 = b
@@ -30,21 +42,32 @@ class edge:
         print(self.v1.name, "to", self.v2.name, "taking", self.weight, "km")
     
 class graph:
+    """
+    A graph made up of vertices and edges, objects of the vertex and edge class, respectively.
+    """
     
     def __init__(self,v1,v2,w):
+        """
+        Initializes the graph with two vertex objects v1, v2, and an edge between them with weigth w;
+        example: my_graph = graph(vertex1, vertex2, 0.42)
+        """
         
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
 
+        
+        # we store the vertices/edges in lists, and use their names/vertices as dictionary keys that have the index as value;
+        # this makes searching more expedient and intuitive
         self.vertices = []
         self.dic_vertices = {}
         self.edges = []
         self.dic_edges = {}
+        
         #adjacency matrix is composed of np.infty and weights; 
         self.weighted_adjacency_matrix = np.ones((1))*np.infty 
         
-        #symmetric TSP        
+        #symmetric TSP: edges are NOT directed, so if v1 is a neighbour of v2, then v2 is also a neighbour of v1        
         v1.is_neighbour_of(v2)
         v2.is_neighbour_of(v1)
         
@@ -67,7 +90,12 @@ class graph:
         self.weighted_adjacency_matrix =np.copy(temp_matrix)
         
         
-    def attach_vertex(self, new_vertex, existing_vertex, weight):        
+    def attach_vertex(self, new_vertex, existing_vertex, weight):   
+        """
+        Adds new_vertex to the graph by attaching it to existing_vertex;
+        Adds (undirected) weighted edge (new_vertex, existing_vertex, weight) to the graph;
+        Updates adjacency matrix
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -100,6 +128,10 @@ class graph:
         self.vertices[self.dic_vertices[existing_vertex.name]].is_neighbour_of(self.vertices[self.dic_vertices[new_vertex.name]])
              
     def attach_edge(self, v1, v2, weight):
+        """
+        Adds a weighted undirected edge (v1,v2,weight) to the graph;
+        updates adjacency matrix
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -116,6 +148,10 @@ class graph:
         self.vertices[self.dic_vertices[v2.name]].is_neighbour_of(self.vertices[self.dic_vertices[v1.name]])
         
     def remove_edge(self, v1, v2):
+        """
+        Removes *undirected edge* (v1,v2) from the graph;
+        updates adjacency matrix
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -142,6 +178,10 @@ class graph:
 
         
     def update_edge(self, v1, v2, new_weight):
+        """
+        Updates the weight of weighted undirected edge (v1,v2) to new_weight;
+        updates adjacency matrix
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -157,7 +197,7 @@ class graph:
         self.weighted_adjacency_matrix[self.dic_vertices[v2.name],self.dic_vertices[v1.name]] = new_weight
         
     def get_edge(self,v1,v2):
-        """returns a list with the index and weight of the edge between v1 and v2 (symmetric)"""
+        """returns a list with the index and weight of the undirected edge between v1 and v2"""
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -169,7 +209,12 @@ class graph:
         return [index, self.edges[index].weight]
                     
     def attach_vertex_fully_connected(self, new_vertex, weight_function):
-        """used to build fully connected graphs (Heidelberg)"""
+        """
+        Attaches new_vertex to the graph, creating an undirected edge to all existing vertices;
+        Edge weight between new_vertex and A is given by weight_function(new_vertex, other_vertex)
+        example: my_graph.attach_vertex_fully_connected(NEW_VERTEX, nearest_int_euclidean_distance_2D)
+        
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -181,6 +226,10 @@ class graph:
             self.attach_edge(new_vertex, existing_vertex, weight_function(new_vertex, existing_vertex))
             
     def get_path_weight(self, path):
+        """
+        Returns the total path weight; paths are lists of vertices [v1, v2, v3, ..., vn] and total weight is calculated
+        by taking the sum of weights of edges in the order given by the list.
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
@@ -193,12 +242,15 @@ class graph:
             path_weight += self.get_edge(node,previous_node)[1]
             previous_node = node
         return path_weight
+    
     def get_cycle_weight(self, path):
+        """
+        Returns the cycle weight calculated by adding the weight of the edge between v1 and vn to the weight of the path [v1...vn]  
+        """
         __author__ = "Eduardo Brandao"
         __copyright__ = "Copyright 2018"
         __status__ = "Prototype"
 
-        """joins the first and the last vertices when calculating weight"""
         return self.get_path_weight(path) + self.get_path_weight((path[-1],path[0]))
             
     def print(self):
@@ -215,7 +267,7 @@ class graph:
 
 
 def get_node_coordinates_2D(filename):
-    """gets node coordinates in 2D. Should work with any distance"""
+    """gets node coordinates in 2D from a heildelberg TST file. Works with any 2D distance"""
     __author__ = "Eduardo Brandao"
     __copyright__ = "Copyright 2018"
     __status__ = "Prototype"
@@ -241,7 +293,7 @@ def get_node_coordinates_2D(filename):
     return node_coordinates
 
 def nearest_int_euclidean_distance_2D(v1,v2):
-    """between vertices, rounded to the nearest integer,
+    """Calculates Euclidean distance between vertices, rounded to the nearest integer,
     as required in the TSPLIB docs"""
     __author__ = "Eduardo Brandao"
     __copyright__ = "Copyright 2018"
@@ -326,6 +378,7 @@ def heidelberg_optimal_tour(filename):
 
 def plotTSP_2D(path):
     """
+    Plots a path between vertices (points on a plane)
     path: ordered list of vertices
     """
     __author__ = "Eduardo Brandao"
