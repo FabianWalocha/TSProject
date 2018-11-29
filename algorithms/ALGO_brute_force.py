@@ -19,7 +19,7 @@ import time
 
 #brute force with a random start implementation; set max_iterations if the graph has a more than 10 nodes!
 #returns elapsed time, the minimum distance, and the minimum cycle/plot of the cycle
-def brute_force(graph, max_iterations = np.infty, random_init = True, return_graph = True):
+def brute_force(graph, max_iterations = np.infty, break_time = 600, random_init = True, return_graph = False):
     """
     graph: instance of class graph; can be created from coordinate list (graph.fully_connected_graph_from_coordinate_list),
     from an adjacency matrix (graph.graph_from_adjacency_matrix) or from a tsp type file (graph.heidelberg_2D)
@@ -48,6 +48,9 @@ def brute_force(graph, max_iterations = np.infty, random_init = True, return_gra
         if current_path_weight < min_weight:
             min_weight = current_path_weight
             min_path = this_path
+            
+        if time.time()-start > break_time:
+            break
             
     end = time.time()
     if return_graph:
