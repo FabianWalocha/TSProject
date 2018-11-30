@@ -39,6 +39,7 @@ def DnC(i,rem_nodes, timed, t1):
             
             # Recursive call to the subproblems
             sub_cost,sub_node, duration =DnC(k,[x for x in rem_nodes if x!= k], timed, t1)
+
             
             # YOU CAN CHANGE THE MAXIMUM TIME HERE
             if timed:

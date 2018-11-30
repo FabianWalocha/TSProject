@@ -22,7 +22,7 @@ __status__ = "Prototype"
 #     pMin: associated minimum path
 #     time: time needed to execute the algorithm
 
-def bruteForce(graph, symmetric=False, preload=False, *args):
+def bruteForce(graph, symmetric=True, preload=False, *args):
     adj_mat = graph.weighted_adjacency_matrix
     
     # create the permutations for the algorithm

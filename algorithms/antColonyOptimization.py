@@ -24,7 +24,7 @@ __status__ = "Prototype"
 #     time: time it took for the algorithm to finish
 
 # inspiration: http://staff.washington.edu/paymana/swarm/stutzle99-eaecs.pdf
-def antColonyOptimization(graph, num_agents=100, max_iter = 100000, alpha=1, beta=1, rho=0.8, symmetric=False, verbose=0):
+def antColonyOptimization(graph, num_agents=100, max_iter = 3000, alpha=2, beta=1, rho=0.8, symmetric=True, verbose=0):
     adj_mat = graph.weighted_adjacency_matrix
     t1 = time()
     pher_mat = np.ones(adj_mat.shape)

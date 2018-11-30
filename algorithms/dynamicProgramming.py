@@ -57,6 +57,7 @@ def DynamicProgramming(graph, timed = False):
                 # The new cost is the sum of the cost of traveling to i + accumulated cost
                 cost = M[k[i]-1,k[j]-1] + cost_memo[s]
 
+
                 # We look for minimum cost and its path
                 if cost < min_cost:
                     min_cost = cost
@@ -70,5 +71,6 @@ def DynamicProgramming(graph, timed = False):
     full_set = tuple(range(1,len(L)+2))
     path_memo[full_set] = [1] + min_path
     cost_memo[full_set] = min_cost + M[0,min_path[-1]-1]
+
     
     return cost_memo[full_set], path_memo[full_set], time.time() - t1
