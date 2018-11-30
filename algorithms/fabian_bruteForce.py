@@ -68,9 +68,9 @@ def bruteForce(graph, symmetric=True, preload=False, *args):
             if cCurr < cMin:
                 pMin = np.append([0],np.append(p,[0]))
                 cMin = cCurr
-            ttemp = time()
-            if (ttemp-t1) > 600:
-                break
+#             ttemp = time()
+#             if (ttemp-t1) > 600:
+#                 break
     else:
         perms = iter((itertools.permutations(range(nNodes))))
         for perm_idx in range(max_iter):            
