@@ -17,11 +17,11 @@ def DivideAndConquer(graph, timed = False):
     
     t1 = time.time()
     
-    cost, path, duration = DnC(1,L,timed, t1)
+    cost, path, duration = DnC(adj_mat,1,L,timed, t1)
     
     return cost, path, duration
 
-def DnC(i,rem_nodes, timed, t1):
+def DnC(M, i,rem_nodes, timed, t1):
     
     # If there are no more nodes to traverse, it means we reached the end of the path, so we go back to the initial vertex
     if len(rem_nodes) == 0:
@@ -38,7 +38,7 @@ def DnC(i,rem_nodes, timed, t1):
         for k in rem_nodes:
             
             # Recursive call to the subproblems
-            sub_cost,sub_node, duration =DnC(k,[x for x in rem_nodes if x!= k], timed, t1)
+            sub_cost,sub_node, duration =DnC(M,k,[x for x in rem_nodes if x!= k], timed, t1)
             
             # YOU CAN CHANGE THE MAXIMUM TIME HERE
             if timed:

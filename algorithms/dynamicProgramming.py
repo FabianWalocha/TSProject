@@ -26,7 +26,7 @@ def DynamicProgramming(graph, timed = False):
     
     #We compute the edges from the leaves to the starting point
     for k in all_S[0:len(L)]:
-       cost_memo[k] = M[k[0]-1,0]
+       cost_memo[k] = adj_mat[k[0]-1,0]
        path_memo[k] = [k[0]]
 
     t1 = time.time()
@@ -55,7 +55,7 @@ def DynamicProgramming(graph, timed = False):
                 s = tuple(s)
 
                 # The new cost is the sum of the cost of traveling to i + accumulated cost
-                cost = M[k[i]-1,k[j]-1] + cost_memo[s]
+                cost = adj_mat[k[i]-1,k[j]-1] + cost_memo[s]
 
                 # We look for minimum cost and its path
                 if cost < min_cost:
@@ -69,6 +69,6 @@ def DynamicProgramming(graph, timed = False):
     # We add the set corresponding to (1,2,...,n) to our calculations
     full_set = tuple(range(1,len(L)+2))
     path_memo[full_set] = [1] + min_path
-    cost_memo[full_set] = min_cost + M[0,min_path[-1]-1]
+    cost_memo[full_set] = min_cost + adj_mat[0,min_path[-1]-1]
     
     return cost_memo[full_set], path_memo[full_set], time.time() - t1
