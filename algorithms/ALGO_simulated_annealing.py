@@ -43,7 +43,7 @@ def simulated_annealing(graph,random_init = True, temperature = 10000, cooling_f
     current_min = graph.get_cycle_weight(nodes)
     
     # with default temperature and cooling rate, it will go through about 23000 iterations,
-    while temperature>0.000000000000001:
+    while temperature>0.000001:
         
         k = np.random.randint(0,len(nodes))
         p = np.random.randint(k,len(nodes))
@@ -68,7 +68,6 @@ def simulated_annealing(graph,random_init = True, temperature = 10000, cooling_f
         else:
             current_min = min(current_min, test_min)
         if time.time()-start > break_time:
-            print(1)
             break
         # replaced linear cooling with kirpatrick cooling(http://citeseer.ist.psu.edu/kirkpatrick83optimization.html),
         # again in the spirit of good physics and because we want the algorithm to spend enough time perfecting the 
