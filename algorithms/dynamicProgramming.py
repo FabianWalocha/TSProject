@@ -5,72 +5,89 @@ import itertools
 # To run the classical Branch and Bound method, use this function (DynamicProgramming).
 def DynamicProgramming(graph, timed = False):
     
-    adj_mat = graph.weighted_adjacency_matrix
-    adj_mat = np.matrix(adj_mat)
+    adj_matrix = graph.weighted_adjacency_matrix
     
-    n = np.size(adj_mat,1)
+    M = np.matrix(adj_matrix)
+    
+    for i in range(0,np.size(M,1)):
+        M[i,i] = np.inf       
+    
+    n = np.size(M,1)
 
     L = list(range(2,n+1))
 
-    all_S = []
+    full_set = tuple([1,tuple(range(2,len(L)+2))])
+    S = list(itertools.combinations(L,1))
     for i in range(1,len(L)+1):
-        all_S = all_S + list(itertools.combinations(L, i))
-    
-    
-    for i in range(0,n):
-        adj_mat[i,i] = np.inf    
-    
+        for j in L:
+            exclude = [] + L
+            exclude.remove(j)
+            combos = list(itertools.combinations(exclude, i))
+            S += [tuple([j,x]) for x in combos]
+    S.append(full_set)
+            
     # start algorithm
     cost_memo = {}
     path_memo = {}
-    
-    #We compute the edges from the leaves to the starting point
-    for k in all_S[0:len(L)]:
-       cost_memo[k] = M[k[0]-1,0]
-       path_memo[k] = [k[0]]
 
     t1 = time.time()
-    
-    # We traverse through all the list of subsets
-    for k in all_S[len(L):]:
 
+    #We compute the edges from the leaves to the starting point
+    for k in S[0:len(L)]:
+        cost_memo[k] = M[k[0]-1,0]
+        path_memo[k] = [k[0]]
+
+    # We traverse through all the list of subsets
+    for k in S[len(L):]:
+        
         # Initialize minimal cost
         min_cost = np.inf 
+        
+        # Basic cases
+        if len(k[1]) == 1:
+            s = tuple(k[1])
+            
+            # YOU CAN CHANGE THE MAXIMUM TIME HERE
+            if timed:
+                if time.time()-t1 > 600:
+                    return cost_memo[s], path_memo[s], time.time() - t1  
 
+            cost_memo[k] = M[k[0]-1,s[0]-1] + cost_memo[s]
+            path_memo[k] = [k[0]] + path_memo[s]
+            
+            continue
+        
+        # Initialize min cost
+        min_cost = np.inf
+        
         # We traverse through the elements of the permutation
-        for i in range(0,len(k)): # This index removes the element corresponding to the node that we will visit
-            for j in range(0,len(k)): # This index corresponds to the current node, i != j
-                                      # E.G. [k={2,3,4}, i=3, j=2] ==> [2 -> 3, with j in k-{3}] 
-                    
-                # YOU CAN CHANGE THE MAXIMUM TIME HERE
-                if timed:
-                    if time.time()-t1 > 600:
-                        return cost,path_memo[s], time.time() - t1                   
-                    
-                if i==j: continue
+        for j in k[1]: # This index removes the element corresponding to the node that we will visit
 
-                # We remove "i" from the subset, but tuples are immutable
-                s = list(k)
-                s.remove(k[i])
-                s = tuple(s)
+            # We rewrite the available paths as an already solved problems
+            avail_nodes = list(k[1])
+            avail_nodes.remove(j)
+            s = tuple([j,tuple(avail_nodes)])
+            
+            # Compute the cost
+            cost = M[k[0]-1,j-1] + cost_memo[s]
+            
+            # YOU CAN CHANGE THE MAXIMUM TIME HERE
+            if timed:
+                if time.time()-t1 > 600:
+                    return cost_memo[s], path_memo[s], time.time() - t1  
 
-                # The new cost is the sum of the cost of traveling to i + accumulated cost
-                cost = M[k[i]-1,k[j]-1] + cost_memo[s]
-
-
-                # We look for minimum cost and its path
-                if cost < min_cost:
-                    min_cost = cost
-                    min_path = path_memo[s] + [k[i]]
-
+            if cost < min_cost:
+                min_cost = cost
+                min_path = [k[0]] + path_memo[s]
+        
         # We save in our memos the cost and its associated path
         cost_memo[k] = min_cost    
         path_memo[k] = min_path
 
     # We add the set corresponding to (1,2,...,n) to our calculations
-    full_set = tuple(range(1,len(L)+2))
-    path_memo[full_set] = [1] + min_path
-    cost_memo[full_set] = min_cost + M[0,min_path[-1]-1]
 
+
+    path_memo[full_set] = min_path + [1]
+    cost_memo[full_set] = min_cost
     
     return cost_memo[full_set], path_memo[full_set], time.time() - t1
