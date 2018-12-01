@@ -17,19 +17,24 @@ def DivideAndConquer(graph, timed = False):
     
     t1 = time.time()
     
-    cost, path, duration = DnC(1,L,timed, t1)
+    cost, path, duration = DnC(adj_mat,1,L,0,timed, t1)
     
     return cost, path, duration
 
-def DnC(i,rem_nodes, timed, t1):
+def DnC(M,i,rem_nodes,sup_cost,timed,t1):    
     
     # If there are no more nodes to traverse, it means we reached the end of the path, so we go back to the initial vertex
     if len(rem_nodes) == 0:
         # Calculates the distance between the node and the starting point
         cost = M[i -1,0]
-        return cost, [1,i], time.time()-t1
+        return cost, [i,1], time.time()-t1
     
     else:
+        
+        # YOU CAN CHANGE THE MAXIMUM TIME HERE
+        if timed:
+            if time.time()-t1 > 600:
+                return cost_memo[s], path_memo[s], time.time() - t1          
         
         # Initialize minimum cost
         min_cost = np.inf
@@ -37,22 +42,16 @@ def DnC(i,rem_nodes, timed, t1):
         # fix an element "k" and select the optimal solutions of the subproblems without k
         for k in rem_nodes:
             
-            # Recursive call to the subproblems
-            sub_cost,sub_node, duration =DnC(k,[x for x in rem_nodes if x!= k], timed, t1)
+            cost = M[i -1,k -1]
             
-            # YOU CAN CHANGE THE MAXIMUM TIME HERE
-            if timed:
-                if time.time()-t1 > 600:
-                    return sub_cost,sub_node, time.time() - t1            
+            # Recursive call to the subproblems
+            sub_cost,sub_node, duration=DnC(M,k,[x for x in rem_nodes if x!= k],sup_cost + cost,timed,t1)
             
             # Storing the optimal solutions in temporary variables
-            if sub_cost < min_cost:
+            if cost + sub_cost < min_cost:
                 index_opt = k
                 opt_nodes = sub_node
-                min_cost = sub_cost           
-        
-        # Update de cost
-        cost = M[i -1,index_opt -1] + min_cost  
+                min_cost =  cost + sub_cost         
         
         # Return the optimal cost and the path that allowed us to find it
-        return cost,  opt_nodes + [i], time.time() - t1
+        return min_cost,  [i] + opt_nodes, time.time()-t1
