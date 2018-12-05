@@ -32,7 +32,8 @@ def antColonyOptimization(graph, num_agents=20, max_iter = 1000, alpha=1, beta=5
     cmin = np.inf
     pmin = []
     pher_mat = np.ones(adj_mat.shape)
-    prob_mat = np.ones(adj_mat.shape)/len(adj_mat-1)
+#     prob_mat = np.ones(adj_mat.shape)/len(adj_mat-1)
+    prob_mat = np.ones(adj_mat.shape)/(len(adj_mat)-1)
     for idx in range(len(adj_mat)):
         prob_mat[idx,idx]=0
     idx = 0
