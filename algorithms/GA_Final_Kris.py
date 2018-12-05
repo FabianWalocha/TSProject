@@ -20,7 +20,6 @@ def GA_approach(graph, PopulationIntended, GenerationIntended, mutationRateInten
     Cities = []
 
     Matrix = graph.weighted_adjacency_matrix
-    Matrix = np.matrix(Matrix)
 
     class City:
         def __init__(self, id=0):
@@ -28,10 +27,6 @@ def GA_approach(graph, PopulationIntended, GenerationIntended, mutationRateInten
 
         def distanceTo(self, city):
             return Matrix[self.id][city.id]
-            # xDistance = abs(self.x - city.x)
-            # yDistance = abs(self.y - city.y)
-            # distance = math.sqrt(pow(xDistance, 2) + pow(yDistance, 2))
-            # return distance
 
         def __repr__(self):
             return str("( id = " + str(self.id) + ")")
