@@ -26,7 +26,7 @@ __status__ = "Prototype"
 
 # inspiration: http://staff.washington.edu/paymana/swarm/stutzle99-eaecs.pdf
 # parameter optimization: https://pdfs.semanticscholar.org/30cc/a5e0f5f84d3ad4c4224e247cb418304b4721.pdf
-def antColonyOptimization(graph, num_agents=20, max_iter = 1000, alpha=1, beta=3, rho=0.5, symmetric=True, verbose=0):
+def antColonyOptimization(graph, num_agents=20, max_iter = 1000, alpha=1, beta=5, rho=0.5, symmetric=True, verbose=0):
     adj_mat = graph.weighted_adjacency_matrix
     t1 = time()
     cmin = np.inf
