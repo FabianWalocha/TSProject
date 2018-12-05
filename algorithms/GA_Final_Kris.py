@@ -83,13 +83,15 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
         def getDistance(self):
             if self.distance == 0:
                 distance = 0
+                len_route = len(self.route)
+                B_final = self.route[len_route - 1]
 
-                for i in range(0, len(self.route) - 1):
+                for i in range(0, len_route - 1):
                     A = self.route[i]
                     B = self.route[i + 1]
                     distance += A.distanceTo(B)
 
-                distance += B.distanceTo(self.route[0])  # From Last point(B) To First One
+                distance += B_final.distanceTo(self.route[0])  # From Last point(B) To First One
                 self.distance = distance
             return self.distance
 
