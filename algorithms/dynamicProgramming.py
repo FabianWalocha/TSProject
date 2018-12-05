@@ -17,77 +17,116 @@ def DynamicProgramming(graph, timed = False):
     L = list(range(2,n+1))
 
     full_set = tuple([1,tuple(range(2,len(L)+2))])
-    S = list(itertools.combinations(L,1))
-    for i in range(1,len(L)+1):
+    
+    # Initialization
+    cost_memo_child = {}
+    path_memo_child = {}    
+    cost_memo_parent = {}
+    path_memo_parent = {}        
+    
+    # 1: LEAF NODES
+    S_children = list(itertools.combinations(L,1))
+    #We compute the edges from the leaves to the starting point
+    for k in S_children[0:len(L)]:
+        cost_memo_child[k] = M[k[0]-1,0]
+        path_memo_child[k] = [k[0]]    
+    
+    # 2: LEAF PARENT NODES
+    S_parent = []
+    for j in L:
+        exclude = [] + L
+        exclude.remove(j)
+        combos = list(itertools.combinations(exclude, 1))
+        for k in combos:
+            s = tuple([j,k])
+            S_parent += [s]
+            # Update memos
+            cost_memo_parent[s] = M[j-1,k[0]-1] + cost_memo_child[k]
+            path_memo_parent[s] = [j] + path_memo_child[k]        
+
+    t1 = time.time()
+    
+    # 3. GENERAL ALGORITHM
+
+    for i in range(2,len(L)):
+        
+        cost_memo_child = cost_memo_parent
+        path_memo_child = path_memo_parent
+        cost_memo_parent = {}
+        path_memo_parent = {}
+        
+#         print(cost_memo_child)
+        
         for j in L:
             exclude = [] + L
             exclude.remove(j)
-            combos = list(itertools.combinations(exclude, i))
-            S += [tuple([j,x]) for x in combos]
-    S.append(full_set)
+            combos = list(itertools.combinations(exclude, i))  
             
-    # start algorithm
-    cost_memo = {}
-    path_memo = {}
+            for k in combos:
+                
+                # Initialize min cost
+                min_cost = np.inf                   
+                
+                for l in k:
 
-    t1 = time.time()
+                    # We rewrite the available paths as an already solved problems
+                    avail_nodes = list(k)
+                    avail_nodes.remove(l)
+                    s = tuple([l,tuple(avail_nodes)])   
 
-    #We compute the edges from the leaves to the starting point
-    for k in S[0:len(L)]:
-        cost_memo[k] = M[k[0]-1,0]
-        path_memo[k] = [k[0]]
+                    # Compute the cost
+                    cost = M[j-1,l-1] + cost_memo_child[s]
 
-    # We traverse through all the list of subsets
-    for k in S[len(L):]:
-        
-        # Initialize minimal cost
-        min_cost = np.inf 
-        
-        # Basic cases
-        if len(k[1]) == 1:
-            s = tuple(k[1])
-            
-            # YOU CAN CHANGE THE MAXIMUM TIME HERE
-            if timed:
-                if time.time()-t1 > 600:
-                    return cost_memo[s], path_memo[s], time.time() - t1  
+                    # YOU CAN CHANGE THE MAXIMUM TIME HERE
+                    if timed:
+                        if time.time()-t1 > 600:
+                            return cost_memo_child[s], path_memo_child[s], time.time() - t1  
 
-            cost_memo[k] = M[k[0]-1,s[0]-1] + cost_memo[s]
-            path_memo[k] = [k[0]] + path_memo[s]
-            
-            continue
-        
-        # Initialize min cost
-        min_cost = np.inf
-        
-        # We traverse through the elements of the permutation
-        for j in k[1]: # This index removes the element corresponding to the node that we will visit
+                    if cost < min_cost:
+                        min_cost = cost
+                        min_path = [j] + path_memo_child[s]                
+                
+                # This is the real tuple of the parent nodes subproblem
+                z = tuple([j,k])
+                    
+                # Update memos
+                cost_memo_parent[z] = min_cost
+                path_memo_parent[z] = min_path
 
-            # We rewrite the available paths as an already solved problems
-            avail_nodes = list(k[1])
-            avail_nodes.remove(j)
-            s = tuple([j,tuple(avail_nodes)])
-            
-            # Compute the cost
-            cost = M[k[0]-1,j-1] + cost_memo[s]
-            
-            # YOU CAN CHANGE THE MAXIMUM TIME HERE
-            if timed:
-                if time.time()-t1 > 600:
-                    return cost_memo[s], path_memo[s], time.time() - t1  
-
-            if cost < min_cost:
-                min_cost = cost
-                min_path = [k[0]] + path_memo[s]
-        
-        # We save in our memos the cost and its associated path
-        cost_memo[k] = min_cost    
-        path_memo[k] = min_path
-
-    # We add the set corresponding to (1,2,...,n) to our calculations
+    # 4. FULL SET
+    cost_memo_child = cost_memo_parent
+    path_memo_child = path_memo_parent
+    cost_memo_parent = {}
+    path_memo_parent = {}                
 
 
-    path_memo[full_set] = min_path + [1]
-    cost_memo[full_set] = min_cost
+    # Initialize min cost
+    min_cost = np.inf                   
+
+    k = full_set[1]
     
-    return cost_memo[full_set], path_memo[full_set], time.time() - t1
+    for l in k:
+
+        # We rewrite the available paths as an already solved problems
+        avail_nodes = list(k)
+        avail_nodes.remove(l)
+        s = tuple([l,tuple(avail_nodes)])   
+
+        # Compute the cost
+        cost = M[0,l-1] + cost_memo_child[s]
+
+        # YOU CAN CHANGE THE MAXIMUM TIME HERE
+        if timed:
+            if time.time()-t1 > 600:
+                return cost_memo_child[s], path_memo_child[s], time.time() - t1  
+
+        if cost < min_cost:
+            min_cost = cost
+            min_path = [1] + path_memo_child[s]                  
+    
+    path_memo_parent[full_set] = min_path + [1]
+    cost_memo_parent[full_set] = min_cost
+    
+    # 5. RETURN
+    
+    return cost_memo_parent[full_set], path_memo_parent[full_set], time.time() - t1
