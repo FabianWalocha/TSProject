@@ -164,6 +164,9 @@ def create_path_from_edges(EdgeList):
                 path.append(i[1]+1)
                 continue_chain = 1
                 break
+                
+        if E == []:
+            return []
 
         E.remove(i)
 
