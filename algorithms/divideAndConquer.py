@@ -29,20 +29,20 @@ def DnC(M,i,rem_nodes,sup_cost,timed,t1):
         cost = M[i -1,0]
         return cost, [i,1], time.time()-t1
     
-    else:
-        
-        # YOU CAN CHANGE THE MAXIMUM TIME HERE
-        if timed:
-            if time.time()-t1 > 600:
-                return cost_memo[s], path_memo[s], time.time() - t1          
+    else:  
         
         # Initialize minimum cost
         min_cost = np.inf
         
         # fix an element "k" and select the optimal solutions of the subproblems without k
-        for k in rem_nodes:
+        for k in rem_nodes:               
             
             cost = M[i -1,k -1]
+            
+            # YOU CAN CHANGE THE MAXIMUM TIME HERE
+            if timed:
+                if time.time()-t1 > 600:
+                    return cost, rem_nodes, time.time() - t1                 
             
             # Recursive call to the subproblems
             sub_cost,sub_node, duration=DnC(M,k,[x for x in rem_nodes if x!= k],sup_cost + cost,timed,t1)
