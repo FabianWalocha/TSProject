@@ -6,9 +6,9 @@ import random as rd
 from matplotlib import pyplot as plt
 
 def greedy_just_for_sa(graph):
-    """"
+    """
     Thanks Fabian!
-    """"
+    """
     adj_mat = graph.weighted_adjacency_matrix
     nNodes = len(adj_mat)
     firstMove = np.unravel_index(np.argmin(adj_mat),adj_mat.shape)
