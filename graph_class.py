@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 import numpy as np
 import matplotlib.pyplot as plt
 import itertools
@@ -311,11 +308,30 @@ def heidelberg_2D(filename):
     __status__ = "Prototype"
 
     nodes = get_node_coordinates_2D(filename)
-    v1 = vertex(tuple(nodes[0]))
-    v2 = vertex(tuple(nodes[1]))
+    #nodes = [list(i) for i in nodes]
+    
+    
+    #v1 = vertex(tuple(nodes[0]))
+    #v2 = vertex(tuple(nodes[1]))
+    #heidelberg_graph = graph(v1,v2, nearest_int_euclidean_distance_2D(v1,v2))
+    #for node in nodes[2:]:
+    #    heidelberg_graph.attach_vertex_fully_connected(vertex(tuple(node)), nearest_int_euclidean_distance_2D)          
+   
+    nodes = [tuple(node) for node in nodes]    
+    v1 = vertex(nodes[0])
+    v2 = vertex(nodes[1])
+
     heidelberg_graph = graph(v1,v2, nearest_int_euclidean_distance_2D(v1,v2))
+
     for node in nodes[2:]:
-        heidelberg_graph.attach_vertex_fully_connected(vertex(tuple(node)), nearest_int_euclidean_distance_2D)
+        if node in heidelberg_graph.dic_vertices:
+            c = [i+0.00000000000001 for i in node]
+            node=tuple(c)
+            heidelberg_graph.attach_vertex_fully_connected(vertex(node), nearest_int_euclidean_distance_2D)
+        else:
+            heidelberg_graph.attach_vertex_fully_connected(vertex(node), nearest_int_euclidean_distance_2D)
+
+
     return heidelberg_graph
 
 def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euclidean_distance_2D):
@@ -325,7 +341,6 @@ def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euc
     __status__ = "Prototype"
     
     #script to introduce a very small change to the coordinates of vertices if there are repeated coordinates
-    # to make it play nice with the dictionaries
     
     uniques, uniques_i = np.unique(nodes, axis=0, return_index=True)
     if len(uniques) != len(nodes):
@@ -335,8 +350,8 @@ def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euc
             for component in element:
                 component = float(component)
             for i in repeated:
-                nodes[i] = nodes[i] + 0.000000000000001
-    # end of script
+                nodes[i] = nodes[i] + 0.00000000000001
+
     v1 = vertex(tuple(nodes[0]))
     v2 = vertex(tuple(nodes[1]))
     output_graph = graph(v1,v2, distance(v1,v2))
@@ -399,6 +414,7 @@ def plotTSP_2D(path):
     __status__ = "Prototype"
 
     x = []; y = []
+        
     for node in path:
         x.append(node.name[0])
         y.append(node.name[1])
@@ -496,6 +512,3 @@ def simulated_annealing(graph,random_init = True, temperature = 100000, return_g
     else:
         node_output = nodes
     return end-start, current_min, node_output
-
-
-
