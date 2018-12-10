@@ -7,6 +7,8 @@ def DynamicProgramming(graph, timed = False):
     
     adj_matrix = graph.weighted_adjacency_matrix
     
+    t1 = time.time()
+    
     M = np.matrix(adj_matrix)
     
     for i in range(0,np.size(M,1)):
@@ -44,7 +46,7 @@ def DynamicProgramming(graph, timed = False):
             cost_memo_parent[s] = M[j-1,k[0]-1] + cost_memo_child[k]
             path_memo_parent[s] = [j] + path_memo_child[k]        
 
-    t1 = time.time()
+#     t1 = time.time()
     
     # 3. GENERAL ALGORITHM
 
