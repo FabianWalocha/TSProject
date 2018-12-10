@@ -13,7 +13,7 @@ def bruteForce(coordinates):
 
     # Adjacency matrix
     # NOT OPTIMAL GENERATION, JUST FOR TESTING
-    M = np.matrix([[np.linalg.norm(coordinates[i,0:2]-coordinates[j,0:2]) for j in range(n)] for i in range(n)])
+    M = np.matrix([[int(np.around(np.linalg.norm(coordinates[i,0:2]-coordinates[j,0:2]))) for j in range(n)] for i in range(n)])
 
     # Generate permutations of n
     # NOTE: THERE ARE DUPLICATE PATHS
