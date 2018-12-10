@@ -13,8 +13,8 @@ def BranchAndBoundBinaryTree(graph, timed = False):
     
     t1 = time.time()
     cost, path, duration = BnBBinaryTree(adj_mat, timed, t1)
-        
-    return cost, path, duration 
+    t2 = time.time()
+    return cost, path, (t2-t1) 
 
 # The algorithm
 def BnBBinaryTree(M,timed, t1):
