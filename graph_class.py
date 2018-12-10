@@ -3,11 +3,6 @@ import matplotlib.pyplot as plt
 import itertools
 import time
 
-__author__ = "Eduardo Brandao"
-__copyright__ = "Copyright 2018"
-__status__ = "Prototype"
-
-
 class vertex:
     """
     A vertex v \in V, where (V,E) is a graph.
@@ -49,9 +44,7 @@ class graph:
         example: my_graph = graph(vertex1, vertex2, 0.42)
         """
         
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         
         # we store the vertices/edges in lists, and use their names/vertices as dictionary keys that have the index as value;
@@ -93,9 +86,6 @@ class graph:
         Adds (undirected) weighted edge (new_vertex, existing_vertex, weight) to the graph;
         Updates adjacency matrix
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
         new_edge = edge(new_vertex, existing_vertex, weight)
         
         self.dic_edges[(new_edge.v1.name,new_edge.v2.name)] = len(self.edges) 
@@ -129,9 +119,6 @@ class graph:
         Adds a weighted undirected edge (v1,v2,weight) to the graph;
         updates adjacency matrix
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
         
         new_edge = edge(v1, v2, weight)
         self.dic_edges[(new_edge.v1.name,new_edge.v2.name)] = len(self.edges) 
@@ -149,9 +136,6 @@ class graph:
         Removes *undirected edge* (v1,v2) from the graph;
         updates adjacency matrix
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
 
         #symmetric TSP
         # remove edge and dictionary reference from the graph
@@ -179,9 +163,7 @@ class graph:
         Updates the weight of weighted undirected edge (v1,v2) to new_weight;
         updates adjacency matrix
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         #symmetric TSP
         try:
@@ -195,9 +177,7 @@ class graph:
         
     def get_edge(self,v1,v2):
         """returns a list with the index and weight of the undirected edge between v1 and v2"""
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         try:
             index = self.dic_edges[(v1.name,v2.name)]
@@ -212,9 +192,7 @@ class graph:
         example: my_graph.attach_vertex_fully_connected(NEW_VERTEX, nearest_int_euclidean_distance_2D)
         
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         vertex_list = self.vertices.copy()
         self.attach_vertex(new_vertex, vertex_list[0], weight_function(new_vertex, vertex_list[0]))
@@ -227,9 +205,7 @@ class graph:
         Returns the total path weight; paths are lists of vertices [v1, v2, v3, ..., vn] and total weight is calculated
         by taking the sum of weights of edges in the order given by the list.
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         if type(path[0])!= vertex:
             path = [vertex(name) for name in path]            
@@ -244,17 +220,13 @@ class graph:
         """
         Returns the cycle weight calculated by adding the weight of the edge between v1 and vn to the weight of the path [v1...vn]  
         """
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         return self.get_path_weight(path) + self.get_path_weight((path[-1],path[0]))
             
     def print(self):
         """prints general info"""
-        __author__ = "Eduardo Brandao"
-        __copyright__ = "Copyright 2018"
-        __status__ = "Prototype"
+
 
         names = [a.name for a in self.vertices]
         print(len(self.vertices), "VERTICES:",', '.join(names),"\n")
@@ -265,9 +237,6 @@ class graph:
 
 def get_node_coordinates_2D(filename):
     """gets node coordinates in 2D from a heildelberg TST file. Works with any 2D distance"""
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     node_coordinates = []
 
@@ -292,9 +261,6 @@ def get_node_coordinates_2D(filename):
 def nearest_int_euclidean_distance_2D(v1,v2):
     """Calculates Euclidean distance between vertices, rounded to the nearest integer,
     as required in the TSPLIB docs"""
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     xd = v1.name[0] - v2.name[0]
     yd = v1.name[1] - v2.name[1]
@@ -303,9 +269,6 @@ def nearest_int_euclidean_distance_2D(v1,v2):
 
 def heidelberg_2D(filename):
     """parses 2D distance TSP type .tsp file from Heidelberg and returns the graph"""
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     nodes = get_node_coordinates_2D(filename)
     #nodes = [list(i) for i in nodes]
@@ -336,9 +299,6 @@ def heidelberg_2D(filename):
 
 def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euclidean_distance_2D):
     """creates a fully connected graph from a coordinate list; defaults to nearest_int_euclidean_distance"""
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
     
     #script to introduce a very small change to the coordinates of vertices if there are repeated coordinates
     
@@ -361,9 +321,6 @@ def fully_connected_graph_from_coordinate_list(nodes, distance = nearest_int_euc
 
 def graph_from_adjacency_matrix(matrix):
     """creates a fully connected graph from an adjacency matrix in the form of a numpy array"""
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     nodes = [i for i in range(matrix.shape[0])]
     v1 = vertex(nodes[0])
@@ -381,9 +338,6 @@ def graph_from_adjacency_matrix(matrix):
 
 def heidelberg_optimal_tour(filename):
     """gets node indices for optimal path from opt.tour file"""
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     node_indices = []
 
@@ -409,9 +363,6 @@ def plotTSP_2D(path):
     Plots a path between vertices (points on a plane)
     path: ordered list of vertices
     """
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     x = []; y = []
         
@@ -434,9 +385,6 @@ def plotTSP_2D(path):
     plt.show()
     
 def brute_force(graph, max_iterations = np.infty, random_init = True, return_graph = True):
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
 
     
     start = time.time()
@@ -474,41 +422,4 @@ def brute_force(graph, max_iterations = np.infty, random_init = True, return_gra
         node_output = plotTSP_2D(min_path)
     else:
         node_output = min_path
-    return end-start, min_weight, node_output
-
-
-# simulated annealing implementation
-def simulated_annealing(graph,random_init = True, temperature = 100000, return_graph = True):
-    #ISSUES:
-    #1. Cools one degree for every computation step. Should be decoupled: simulate cooling time using a "cooling function"
-    #2. Instead of shuffling a random path, should maximize the distance between the two permutations (since the length 
-        # of the sequence to be shuffled is already random). This could be done using, perhaps, the "Kendal tau distance":
-        # [[https://en.wikipedia.org/wiki/Kendall_tau_distance]]
-    __author__ = "Eduardo Brandao"
-    __copyright__ = "Copyright 2018"
-    __status__ = "Prototype"
-
-    start = time.time()
-    if random_init:
-        nodes = np.random.permutation(graph.vertices)
-    else:
-        nodes = graph.vertices
-        
-    current_min = graph.get_cycle_weight(nodes)
-    
-    for i in range(temperature):
-        k = np.random.randint(0,len(nodes))
-        p = np.random.randint(k,len(nodes))
-        np.random.shuffle(nodes[k:p])
-        test_min = graph.get_cycle_weight(nodes)
-        if np.exp(-(test_min-current_min)**2/(temperature-i))> np.random.rand():
-            current_min = test_min
-        else:
-            current_min = min(current_min, test_min)    
-    
-    end = time.time()
-    if return_graph:
-        node_output = plotTSP_2D(nodes)
-    else:
-        node_output = nodes
-    return end-start, current_min, node_output
+    return end-start, min_weight, node_outpu
