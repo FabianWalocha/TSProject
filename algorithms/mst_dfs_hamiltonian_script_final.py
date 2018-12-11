@@ -1,24 +1,29 @@
 import networkx as nx
 #import matplotlib.pyplot as plt
 import time
-import sys
+import sys,os
+sys.path.insert(0,'../..')
 import numpy as np
 from scipy.spatial import distance_matrix
 import pandas as pd
 #finding DSF respect to minimum spanning tree
 from collections import defaultdict
 
+global data_json
 
 
-# filename = input("Write file name as this type (eil51_json_array.txt): ")
-# with open(filename, 'r') as myfile:
-#     data_json = myfile.read().replace('\n', '')
-# data_json = eval(data_json)
-# data_json = np.array(data_json)
+filename = input("Write file name as this type (../../data/eil51_json_array.txt): ")
 
-# global distance_data
-# distance_data = distance_matrix(data_json, data_json)
-# distance_data = distance_data.tolist()
+with open(filename, 'r') as myfile:
+    data_json = myfile.read().replace('\n', '')
+data_json = eval(data_json)
+data_json = np.array(data_json)
+
+global distance_data
+distance_data = distance_matrix(data_json, data_json)
+distance_data = distance_data.tolist()
+
+t1 = time.time()
 
 # Finding minimum spanning tree
 
@@ -36,7 +41,7 @@ class Graph():
         self.graph = [[0 for column in range(vertices)] for row in range(vertices)]
 
     def printMST(self, parent):
-#         print("Edge \tWeight")
+        print("Edge \tWeight")
         for i in range(1, self.V):
             # print (parent[i],"-",i,"\t",self.graph[i][ parent[i] ] )
             parent_list.append(parent[i])
@@ -68,10 +73,22 @@ class Graph():
 
         self.printMST(parent)
 
-        
+g = Graph(len(distance_data))
+g.graph = distance_data
+g.primMST()
 
 
-class Graph2:
+# converting df file
+dictionary = {'Parent':parent_list,
+              'Root':root_list,
+              'weight':weight_list}
+df = pd.DataFrame(dictionary)
+
+
+
+
+
+class Graph:
     global opt_route
     opt_route = []
 
@@ -93,54 +110,38 @@ class Graph2:
         visited = [False] * (len(self.graph))
 
         self.DFSUtil(v, visited)
-        
-def mst_hamiltonian(graph):
-    adj_mat = graph.weighted_adjacency_matrix
-    adj_mat = adj_mat.tolist()
-    t1 = time.time()
-    g = Graph(len(adj_mat))
-    g.graph = adj_mat
-    g.primMST()
-
-        
-# g = Graph(len(distance_data))
-# g.graph = distance_data
-# g.primMST()
 
 
-    # converting df file
-    dictionary = {'Parent':parent_list,
-                  'Root':root_list,
-                  'weight':weight_list}
-    df = pd.DataFrame(dictionary)
+g = Graph()
+for number in range(len(df)):
+    g.addEdge(df['Parent'][number], df['Root'][number])
+for number in range(len(df)):
+    g.addEdge(df['Root'][number], df['Parent'][number])
 
-    g = Graph2()
-    for number in range(len(df)):
-        g.addEdge(df['Parent'][number], df['Root'][number])
-    for number in range(len(df)):
-        g.addEdge(df['Root'][number], df['Parent'][number])
+print("Following is DFS from (starting from vertex 5)")
+g.DFS(5)
 
-#     print("Following is DFS from (starting from vertex 5)")
-    g.DFS(5)
+global total_distance
+total_distance = 0
+for i in range(len(opt_route)):
+    try:
+        city_1 = opt_route[i]
+        city_2 = opt_route[i+1]
+        total_distance = total_distance + int(distance_data[city_1][city_2])+1
+    except:
+        city_1 = opt_route[i]
+        city_2 = opt_route[0]
+        total_distance = total_distance + int(distance_data[city_1][city_2])+1
 
-    total_distance = 0
-    for i in range(len(opt_route)):
-        try:
-            city_1 = opt_route[i]
-            city_2 = opt_route[i+1]
-            total_distance = total_distance + adj_mat[city_1][city_2]
-        except:
-            city_1 = opt_route[i]
-            city_2 = opt_route[0]
-            total_distance = total_distance + adj_mat[city_1][city_2]
+t2 = time.time()
 
-    t2 = time.time()
-    duration = t2-t1
-
-    return total_distance, opt_route, duration
+global duration
+duration = t2-t1
 
 
 
-# print("The route is :", opt_route)
-# print("Total execution time is: ",duration," seconds")
-# print("Total distance is : ",total_distance)
+
+
+#print("The route is :", opt_route)
+print("Total execution time is: ",duration," seconds")
+print("Total distance is : ",total_distance)

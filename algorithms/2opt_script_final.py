@@ -1,14 +1,17 @@
 import time
 import numpy as np
-#import pandas as pd
-#import seaborn as sns
-#import matplotlib.pyplot as plt
-#%matplotlib inline
+import sys,os
+sys.path.insert(0,'../..')
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+# %matplotlib inline
 
 path_distance = lambda r, c: np.sum([int(np.linalg.norm(c[r[p]] - c[r[p - 1]])+1) for p in range(len(r))])
 two_opt_swap = lambda r,i,k: np.concatenate((r[0:i],r[k:-len(r)+i-1:-1],r[k+1:len(r)]))
 
-duration = float(input("What's the limit of execution time?:  "))
+duration = 600
 
 def two_opt(cities,improvement_threshold): # 2-opt Algorithm adapted from https://en.wikipedia.org/wiki/2-opt
     route = np.arange(cities.shape[0])
@@ -34,7 +37,7 @@ def two_opt(cities,improvement_threshold): # 2-opt Algorithm adapted from https:
 
     return route
 
-filename = input("Write the name of data.(i.e: eil51_json_array.txt):  ")
+filename = input("Write the name of data.(i.e: ../../data/eil51_json_array.txt):  ")
 with open(filename, 'r') as myfile:
     data=myfile.read().replace('\n', '')
 data = eval(data)
