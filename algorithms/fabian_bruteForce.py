@@ -7,10 +7,6 @@ from time import time
 import itertools
 import math as mt
 
-__author__ = "Fabian Walocha"
-__copyright__ = "Copyright 2018"
-__status__ = "Prototype"
-
 # Implementation of the brute force algorithm for TSP
 # Input:
 #     adj_mat: adjacency matrix
