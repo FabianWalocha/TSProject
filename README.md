@@ -1,7 +1,7 @@
 # TSProject
 Our project structure:
 
-1. **TSProject/graph_class.py**-> a library that maintain all main operations with garph creation (distance calculation, graph composition, adjacency matrix creation).
+1. **TSProject/graph_class.py**-> a library that maintain all main operations with graph creation (distance calculation, graph composition, adjacency matrix creation).
 2. **TSProject/WALKTHROUGH_graph_class.ipynb**-> a notebook that explains step-by-step usage of graph_class.py.
 3. **TSProject/tests/**-> a notebook for testing graph_class.py.
 
