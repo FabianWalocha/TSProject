@@ -4,10 +4,8 @@
     <list default="true" id="92debe4a-e88b-4c86-baa6-5090bc53bda6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_comparison.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_comparison.ipynb" />
-      <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/BruteForce-Greedy-AntColonyOptimization.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/BruteForce-Greedy-AntColonyOptimization.ipynb" />
-      <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/Genetic_algorithm.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/Genetic_algorithm.ipynb" />
-      <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/Simulated Annealing.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/Simulated Annealing.ipynb" />
-      <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/with_graph_test.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/with_graph_test.ipynb" />
+      <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_test1.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_test1.ipynb" />
+      <change beforePath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/mst_comparision.ipynb" afterPath="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/mst_comparision.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,25 +16,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Benchmarking.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/benchmarking/Benchmarking.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2opt_script_final.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/2opt_script_final.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BruteForce-Greedy-AntColonyOptimization.ipynb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/BruteForce-Greedy-AntColonyOptimization.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
@@ -82,7 +61,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="2_opt_comparison_results_graph.ipynb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="2_opt_comparison_results_graph.ipynb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2_opt_comparison_results_graph.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
@@ -96,6 +75,24 @@
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
               <selected id="0" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="2opt_test1.ipynb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_test1.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mst_comparision.ipynb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/mst_comparision.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="4" />
             </state>
           </provider>
         </entry>
@@ -157,6 +154,9 @@
         <option value="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/BruteForce-Greedy-AntColonyOptimization.ipynb" />
         <option value="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/Genetic_algorithm.ipynb" />
         <option value="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/Simulated Annealing.ipynb" />
+        <option value="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_comparison.ipynb" />
+        <option value="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_test1.ipynb" />
+        <option value="$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/mst_comparision.ipynb" />
       </list>
     </option>
   </component>
@@ -438,14 +438,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/algorithms/kris_brute_force.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="31" column="28" lean-forward="true" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/test_facker.py" />
     <entry file="file://$PROJECT_DIR$/algorithms/brute_force_random_data.ipynb" />
     <entry file="file://$PROJECT_DIR$/algorithms/kris_brute_force.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -659,6 +651,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2_opt_comparison_results_graph.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_comparison.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -666,10 +665,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2_opt_comparison_results_graph.ipynb">
+    <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/2opt_test1.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="0" />
+          <selected id="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/Notebooks_with_algorithms/mst_comparision.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="4" />
         </state>
       </provider>
     </entry>
