@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="92debe4a-e88b-4c86-baa6-5090bc53bda6" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/2_opt_comparison_results_graph.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/2opt_comparison.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/2opt_script_final.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/2opt_test1.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/mst_comparison.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/mst_comparison_results_graph.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/mst_dfs_hamiltonian_path_final.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/algorithms/randomized_approach_final.ipynb" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/2opt_test1.ipynb" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/a280_array.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/att48_array.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/berlin52_array.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/ch150_array.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/eil101_array.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/2-opt algorithm/pr76_array.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/algorithms/Genetic_algorithm.ipynb" afterPath="$PROJECT_DIR$/algorithms/Genetic_algorithm.ipynb" />
-    </list>
+    <list default="true" id="92debe4a-e88b-4c86-baa6-5090bc53bda6" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,45 +56,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Genetic_algorithm.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/Genetic_algorithm.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="2opt_script_final.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="2opt_script_final.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/algorithms/2opt_script_final.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mst_comparison.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/mst_comparison.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="with_graph_test.ipynb" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/algorithms/with_graph_test.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="eil51_json_array.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/eil51_json_array.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -364,7 +310,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1270" height="712" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.49559647" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.49743965" order="6" side_tool="false" content_ui="tabs" />
@@ -373,7 +318,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.49743965" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.4908559" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.4547638" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.4547638" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3990307" sideWeight="0.49722" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -722,14 +667,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/2opt_script_final.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/mst_comparison.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -748,6 +685,14 @@
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
           <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/2opt_script_final.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
