@@ -6,10 +6,6 @@ import random as rd
 from time import time
 import multiprocessing
 
-__author__ = "Fabian Walocha"
-__copyright__ = "Copyright 2018"
-__status__ = "Prototype"
-
 # Implementation of the ant colony algorithm for TSP
 # Input:
 #     adj_mat: adjacency matrix

@@ -5,10 +5,6 @@ import numpy as np
 import random as rd
 from time import time 
 
-__author__ = "Fabian Walocha"
-__copyright__ = "Copyright 2018"
-__status__ = "Prototype"
-
 # Implementation of the greedy algorithm for TSP
 # Input:
 #     adj_mat: adjacency matrix
