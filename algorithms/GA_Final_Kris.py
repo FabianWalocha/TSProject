@@ -1,11 +1,5 @@
 import random
-import numpy as np
 import time
-
-__author__ = "Kris Kulivnyk"
-__copyright__ = "Copyright 2018"
-__status__ = "Prototype"
-
 
 def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationRateIntended=0.5, tournamentSelectionSizeIntended=20,
                 elitismIntended=True, timed=False):
