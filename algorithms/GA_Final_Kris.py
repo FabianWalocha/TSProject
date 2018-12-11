@@ -1,14 +1,8 @@
 import random
-import numpy as np
 import time
 
-__author__ = "Kris Kulivnyk"
-__copyright__ = "Copyright 2018"
-__status__ = "Prototype"
-
-
 def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationRateIntended=0.5, tournamentSelectionSizeIntended=20,
-                elitismIntended=True, timed=False, ):
+                elitismIntended=True, timed=False):
     mutationRate = mutationRateIntended  # 2
     tournamentSelectionSize = tournamentSelectionSizeIntended
 
@@ -42,7 +36,6 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
                 for i in range(0, len(Cities)):
                     self.route.append(None)
 
-        # Безполезный код
         def __len__(self):
             return len(self.route)
 
@@ -51,8 +44,6 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
 
         def __setitem__(self, key, value):
             self.route[key] = value
-
-        # Конец Безполезный код
 
         def __repr__(self):
             geneString = ""
@@ -121,17 +112,17 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
         def populationSize(self):
             return len(self.routes)
 
-        def getRouletteList(self):
+        def getRouletteList(self):  # here in the end of list - sum of all fitnesses (max value)
             roiletlist = []
-            a = 0.0;
-
+            a = 0.0
+            roiletlist.append(a)
             for i in range(0, self.populationSize()):
                 a += self[i].getFitness()
                 roiletlist.append(a)
 
             return roiletlist
 
-    def evolvePopulation(population):  # Буду Міняти
+    def evolvePopulation(population):
         nextPopulation = Population(len(population), False)
         elitismOffset = 0
         if elitism:
@@ -141,22 +132,16 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
         mattingPopulation = mattingCreatorPool(population)
         # Current work
         for i in range(elitismOffset, nextPopulation.populationSize()):
-            parent1 = rouletteSelection(mattingPopulation)  # tournamentSelection(population)
-            parent2 = tournamentSelection(mattingPopulation)  # tournamentSelection(population)
+            parent1 = rouletteSelection(mattingPopulation)
+            parent2 = rouletteSelection(mattingPopulation)
             child = crossover2(parent1, parent2)
             nextPopulation[i] = child
-
-            # Ми можем поменять строчки paren1 и parent2 на
-            # parent1 = tournamentSelection(mattingCreatorPool(population))
-            # Matting Pool это популяция(как обэкт) в которой находяться те индивидумы - которые будут дальше розмножаться и делать детей
-
-        # Done
         nextPopulation = mutatePopulation(nextPopulation,
                                           elitismOffset)  # If ElitismOffset is 0 we will mutate all population
-
         return nextPopulation
 
     def crossover2(parent_1, parent_2):
+
         list_1 = []
 
         geneA = int(random.random() * len(parent_1))
@@ -169,8 +154,6 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
             list_1.append(parent_1[i])
 
         list_2 = [item for item in parent_2 if item not in list_1]
-        # В list_2 додається те що є в parent2 и немає в ChildP1
-
         list = []
         i_1 = 0
         i_2 = 0
@@ -186,12 +169,11 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
         return Route(list)
 
     def mutatePopulation(population, offset):  # New Version
-
         for i in range(offset, population.populationSize()):
             mutateRoute(population[i])
         return population
 
-    def mutateRoute(route):  # Рандомно вибираємо два міста і міняємо їх місцями
+    def mutateRoute(route):
         if random.random() < mutationRate:
             id_1 = random.randint(0, len(route) - 1)
             id_2 = random.randint(0, len(route) - 1)
@@ -200,14 +182,13 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
             route.addCity(id_1, route[id_2])
             route.addCity(id_2, tmpRoute)
 
-    def tournamentSelection(population):  # Він хоч і стрельнутий у інших - але поки що один з найцікавіших
+    def tournamentSelection(population):
         tPopulation = Population(tournamentSelectionSize, False)
         for i in range(0, tournamentSelectionSize):
             id = random.randint(0, len(population) - 1)
             tPopulation[i] = population[id]
         return tPopulation.getFittest()
 
-    # RouleSelection Implementation
     def rouletteSelection(population):
         rouletteList = population.getRouletteList()
         maxvalue = rouletteList[population.populationSize() - 1]
@@ -215,17 +196,15 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
         for i in range(0, len(rouletteList) - 1):
             if (rouletteList[i] <= random_id < rouletteList[i + 1]):
                 return population[i]
-
         return population[len(rouletteList) - 1]
 
     def mattingCreatorPool(population):
-        size = int(len(population) / 2);
+        size = int(len(population) / 2)
         mattingPopulation = Population(size, False)
         for i in range(0, len(mattingPopulation)):
-            mattingPopulation[i] = rouletteSelection(population)
+            mattingPopulation[i] = tournamentSelection(population)
         return mattingPopulation
 
-    # Create and add our cities
     for id in range(0, len(Matrix)):
         city = City(id)
         Cities.append(city)
@@ -235,16 +214,15 @@ def GA_approach(graph, PopulationIntended=100, GenerationIntended=500, mutationR
     pop = Population(PopulationSize, True)
     initial_distance = pop.getFittest().getDistance()
 
-    # Evolve population for 50 generations
+    # Evolve population for N generations
     pop = evolvePopulation(pop)
-    for i in range(0, GenerationSize):
 
+    for i in range(0, GenerationSize):
         # YOU CAN CHANGE THE MAXIMUM TIME HERE
         if timed:
             if time.time() - t1 > 600:
                 return initial_distance, pop.getFittest().getDistance(), pop.getFittest(), time.time() - t1
-
-    pop = evolvePopulation(pop)
+        pop = evolvePopulation(pop)
 
     t2 = time.time()
     final_time = t2 - t1
